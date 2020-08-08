@@ -14,7 +14,11 @@
             android:id="@+id/actionDetails"
             app:destination="@id/contactDetailsFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/nav_default_exit_anim" >
+            <argument
+                android:name="contactId"
+                android:defaultValue="" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/contactDetailsFragment"

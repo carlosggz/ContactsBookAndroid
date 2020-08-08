@@ -77,8 +77,6 @@ public class ContactsListFragment extends Fragment {
         });
 
         setObservers();
-
-        // btnAddContact.setOnClickListener(v -> showDetails());
     }
 
     private void setObservers() {
@@ -109,11 +107,5 @@ public class ContactsListFragment extends Fragment {
                 errorMessage.setVisibility(isError ? View.VISIBLE : View.GONE);
             }
         });
-    }
-
-    void showDetails() {
-
-        //NavDirections action = ContactsListFragmentDirections.actionDetails("1234");
-        //Navigation.findNavController(btnAddContact).navigate(action);
     }
 }

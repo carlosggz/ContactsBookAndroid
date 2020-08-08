@@ -1,25 +1,29 @@
 package com.carlosggz.contactsbook.view;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.carlosggz.contactsbook.R;
+import com.carlosggz.contactsbook.databinding.ContactItemBinding;
 import com.carlosggz.contactsbook.model.ContactInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapter.ContactViewHolder> {
+public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapter.ContactViewHolder> implements ContactSelectedListener {
 
     private ArrayList<ContactInfo> contactsList;
 
     public ContactsListAdapter(List<ContactInfo> contactsList) {
-        this.contactsList =  new ArrayList(contactsList);
+        this.contactsList =  new ArrayList<ContactInfo>(contactsList);
     }
 
     public void updateContactList(List<ContactInfo> contacts) {
@@ -31,17 +35,15 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
     @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_item, parent, false);
-        return new ContactViewHolder(v);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        ContactItemBinding view = DataBindingUtil.inflate(inflater, R.layout.contact_item, parent, false);
+        return new ContactViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
-        TextView firstName = holder.itemView.findViewById(R.id.contactFirstName);
-        TextView lastName = holder.itemView.findViewById(R.id.contactLastName);
-        ContactInfo contact = contactsList.get(position);
-        firstName.setText(contact.firstName);
-        lastName.setText(contact.lastName);
+        holder.itemView.setContact(contactsList.get(position));
+        holder.itemView.setListener(this);
     }
 
     @Override
@@ -49,13 +51,20 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         return contactsList.size();
     }
 
+    @Override
+    public void onContactSelected(View v) {
+        String contactId = ((TextView)v.findViewById(R.id.contactId)).getText().toString();
+        ContactsListFragmentDirections.ActionDetails actionDetails = ContactsListFragmentDirections.actionDetails();
+        actionDetails.setContactId(contactId);
+        Navigation.findNavController(v).navigate(actionDetails);
+    }
 
     class ContactViewHolder extends RecyclerView.ViewHolder {
 
-        public View itemView;
+        public ContactItemBinding itemView;
 
-        public ContactViewHolder(@NonNull View itemView) {
-            super(itemView);
+        public ContactViewHolder(@NonNull ContactItemBinding itemView) {
+            super(itemView.getRoot());
             this.itemView = itemView;
         }
     }

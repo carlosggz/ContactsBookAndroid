@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:orientation="vertical">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="contact"
+            type="com.carlosggz.contactsbook.model.ContactInfo" />
+
+        <variable
+            name="listener"
+            type="com.carlosggz.contactsbook.view.ContactSelectedListener" />
+    </data>
 
     <LinearLayout
-        android:gravity="center_vertical"
-        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+         android:onClick="@{listener::onContactSelected}"
+        android:padding="5dp">
+        <TextView
+            android:id="@+id/contactId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@{contact.contactId}"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="First Name"
+            android:text="@{contact.firstName}"
             android:id="@+id/contactFirstName"
             android:padding="5dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Last Name"
+            android:text="@{contact.lastName}"
             android:id="@+id/contactLastName"
             android:padding="5dp" />
     </LinearLayout>
 
 
-</LinearLayout>
+</layout>
