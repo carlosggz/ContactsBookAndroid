@@ -5,4 +5,6 @@
     <string name="there_was_an_error_loading_data">There was an error loading data</string>
     <string name="Contact_Details_Title">Contact Details</string>
     <string name="Contacts_List_Title">Contacts List</string>
+    <string name="edit_menu">Edit</string>
+    <string name="delete_menu">Delete</string>
 </resources>

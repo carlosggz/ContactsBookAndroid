@@ -14,8 +14,12 @@ public class ContactDetailsViewModel extends ViewModel {
         return contact;
     }
 
-    public void LoadContact(String contactId) {
+    public void loadContact(String contactId) {
         ContactDetails details = new ContactDetails(contactId, "fn " + contactId, "ln " + contactId);
         contact.setValue(details);
+    }
+
+    public void deleteContact() {
+
     }
 }
