@@ -49,4 +49,10 @@ public class ContactDetailsFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.Contact_Details_Title));
+    }
 }
