@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.carlosggz.contactsbook.model.ContactDetails;
 
+import java.util.ArrayList;
+
 public class ContactDetailsViewModel extends ViewModel {
 
     private MutableLiveData<ContactDetails> contact = new MutableLiveData<ContactDetails>();
@@ -15,7 +17,7 @@ public class ContactDetailsViewModel extends ViewModel {
     }
 
     public void loadContact(String contactId) {
-        ContactDetails details = new ContactDetails(contactId, "fn " + contactId, "ln " + contactId);
+        ContactDetails details = new ContactDetails(contactId, "fn " + contactId, "ln " + contactId, new ArrayList<>(), new ArrayList<>());
         contact.setValue(details);
     }
 

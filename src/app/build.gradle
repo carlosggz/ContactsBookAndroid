@@ -37,6 +37,8 @@ def retrofitVersion = '2.3.0'
 def rxJavaVersion = '2.1.1'
 def navVersion = '2.3.0'
 def materialsVersion = '1.2.0'
+def daggerVersion = '2.14.1'
+def mockitoVersion = '2.11.0'
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -65,4 +67,13 @@ dependencies {
 
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
+
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    testImplementation "android.arch.core:core-testing:1.1.1"
 }

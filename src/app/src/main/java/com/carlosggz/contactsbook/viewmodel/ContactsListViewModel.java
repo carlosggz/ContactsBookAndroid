@@ -7,10 +7,14 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.carlosggz.contactsbook.di.DaggerContactsApiComponent;
 import com.carlosggz.contactsbook.model.ContactInfo;
+import com.carlosggz.contactsbook.model.services.ContactsService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class ContactsListViewModel extends AndroidViewModel {
 
@@ -18,8 +22,13 @@ public class ContactsListViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<Boolean>();
     private MutableLiveData<Boolean> contactsLoadingError = new MutableLiveData<Boolean>();
 
+    @Inject
+    public ContactsService contactsService;
+
     public ContactsListViewModel(@NonNull Application application) {
+
         super(application);
+        DaggerContactsApiComponent.create().inject(this);
     }
 
     public LiveData<List<ContactInfo>> getContacts() {
