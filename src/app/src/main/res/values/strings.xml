@@ -9,4 +9,6 @@
     <string name="delete_menu">Delete</string>
     <string name="email_addresses">Email addresses</string>
     <string name="phone_numbers">Phone Numbers</string>
+    <string name="edit_contact_title">Edit contact</string>
+    <string name="add_contact_title">Add contact</string>
 </resources>

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.carlosggz.contactsbook.di.DaggerContactsApiComponent;
 import com.carlosggz.contactsbook.model.ContactInfo;
@@ -16,7 +17,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class ContactsListViewModel extends AndroidViewModel {
+public class ContactsListViewModel extends ViewModel {
 
     private MutableLiveData<List<ContactInfo>> contacts = new MutableLiveData<List<ContactInfo>>();
     private MutableLiveData<Boolean> isLoading = new MutableLiveData<Boolean>();
@@ -25,9 +26,7 @@ public class ContactsListViewModel extends AndroidViewModel {
     @Inject
     public ContactsService contactsService;
 
-    public ContactsListViewModel(@NonNull Application application) {
-
-        super(application);
+    public ContactsListViewModel() {
         DaggerContactsApiComponent.create().inject(this);
     }
 

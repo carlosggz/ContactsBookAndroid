@@ -113,7 +113,7 @@ public class ContactDetailsFragment extends Fragment {
     }
 
     private void editContact() {
-        Toast.makeText(getActivity(), "Edit selected", Toast.LENGTH_LONG).show();
+        navigateToAction(ContactDetailsFragmentDirections.actionEdit(viewModel.getContact().getValue().getContactId()));
     }
 
     private void deleteContact() {
@@ -130,7 +130,10 @@ public class ContactDetailsFragment extends Fragment {
     private void applyDelete() {
         viewModel.deleteContact();
         //Return to list
-        NavDirections action = ContactDetailsFragmentDirections.actionList();
+        navigateToAction(ContactDetailsFragmentDirections.actionList());
+    }
+
+    private void navigateToAction(NavDirections action) {
         Navigation.findNavController(detailsBinding.getRoot()).navigate(action);
     }
 }

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.carlosggz.contactsbook.R;
 import com.carlosggz.contactsbook.view.adapters.ContactsListAdapter;
 import com.carlosggz.contactsbook.viewmodel.ContactsListViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -41,6 +43,9 @@ public class ContactsListFragment extends Fragment {
 
     @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
+
+    @BindView(R.id.btnAdd)
+    FloatingActionButton btnAdd;
 
     public ContactsListFragment() {
     }
@@ -65,6 +70,10 @@ public class ContactsListFragment extends Fragment {
         refreshLayout.setOnRefreshListener(() -> {
             viewModel.reloadContacts();
             refreshLayout.setRefreshing(false);
+        });
+
+        btnAdd.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(ContactsListFragmentDirections.actionAdd(""));
         });
 
         setObservers();
