@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
@@ -7,28 +9,56 @@
             type="com.carlosggz.contactsbook.model.ContactDetails" />
     </data>
 
-    <RelativeLayout
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.ContactDetailsFragment">
 
         <TextView
-            android:id="@+id/contactFirstName"
+            android:id="@+id/contactName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_margin="4dp"
-            android:text="@{contact.firstName}" />
+            android:text='@{contact.firstName + " " + contact.lastName}'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.022" />
 
         <TextView
-            android:id="@+id/contactLastName"
+            android:id="@+id/contactEmailAddresses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/contactFirstName"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="4dp"
-            android:text="@{contact.lastName}" />
+            android:layout_marginTop="20dp"
+            android:text="@string/email_addresses"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contactName" />
 
-    </RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/contactEmails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contactEmailAddresses" />
+
+        <TextView
+            android:id="@+id/contactPhoneNumbers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/phone_numbers"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contactEmails" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/contactPhones"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/contactPhoneNumbers" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

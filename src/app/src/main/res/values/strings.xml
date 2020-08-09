@@ -7,4 +7,6 @@
     <string name="Contacts_List_Title">Contacts List</string>
     <string name="edit_menu">Edit</string>
     <string name="delete_menu">Delete</string>
+    <string name="email_addresses">Email addresses</string>
+    <string name="phone_numbers">Phone Numbers</string>
 </resources>

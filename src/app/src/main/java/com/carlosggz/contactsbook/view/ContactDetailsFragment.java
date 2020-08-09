@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,17 +19,33 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.carlosggz.contactsbook.R;
 import com.carlosggz.contactsbook.databinding.FragmentContactDetailsBinding;
+import com.carlosggz.contactsbook.model.PhoneNumber;
+import com.carlosggz.contactsbook.view.adapters.ContactEmailsListAdapter;
+import com.carlosggz.contactsbook.view.adapters.ContactPhoneListAdapter;
 import com.carlosggz.contactsbook.viewmodel.ContactDetailsViewModel;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ContactDetailsFragment extends Fragment {
 
     ContactDetailsViewModel viewModel;
     FragmentContactDetailsBinding detailsBinding;
+    ContactEmailsListAdapter emailsListAdapter = new ContactEmailsListAdapter(new ArrayList<String>());
+    ContactPhoneListAdapter phoneListAdapter = new ContactPhoneListAdapter(new ArrayList<PhoneNumber>());
+
+    @BindView(R.id.contactEmails)
+    RecyclerView contactEmails;
+
+    @BindView(R.id.contactPhones)
+    RecyclerView contactPhones;
 
     public ContactDetailsFragment() {
     }
@@ -37,7 +55,9 @@ public class ContactDetailsFragment extends Fragment {
         FragmentContactDetailsBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_contact_details, container, false);
         detailsBinding = binding;
         setHasOptionsMenu(true);
-        return binding.getRoot();
+        View view = binding.getRoot();
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -49,9 +69,17 @@ public class ContactDetailsFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(ContactDetailsViewModel.class);
         viewModel.loadContact(contactId);
 
+        contactEmails.setLayoutManager(new LinearLayoutManager(getContext()));
+        contactEmails.setAdapter(emailsListAdapter);
+
+        contactPhones.setLayoutManager(new LinearLayoutManager(getContext()));
+        contactPhones.setAdapter(phoneListAdapter);
+
         viewModel.getContact().observe(getViewLifecycleOwner(), contact -> {
             if (contact != null && getContext() != null) {
                 detailsBinding.setContact(contact);
+                emailsListAdapter.updateList(contact.getEmailAddresses());
+                phoneListAdapter.updateList(contact.getPhoneNumbers());
             }
         });
     }

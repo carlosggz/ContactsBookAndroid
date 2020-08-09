@@ -5,8 +5,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.carlosggz.contactsbook.model.ContactDetails;
+import com.carlosggz.contactsbook.model.PhoneNumber;
+import com.carlosggz.contactsbook.model.PhoneType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactDetailsViewModel extends ViewModel {
 
@@ -17,11 +20,16 @@ public class ContactDetailsViewModel extends ViewModel {
     }
 
     public void loadContact(String contactId) {
-        ContactDetails details = new ContactDetails(contactId, "fn " + contactId, "ln " + contactId, new ArrayList<>(), new ArrayList<>());
+        ContactDetails details = new ContactDetails(
+                contactId,
+                "Peter",
+                "Parker",
+                List.of("peterparker@gmail.com", "pp@gmail.com"),
+                List.of(new PhoneNumber(PhoneType.HOME, "123-456-7890"), new PhoneNumber(PhoneType.WORK, "111-222-3333"))
+        );
         contact.setValue(details);
     }
 
     public void deleteContact() {
-
     }
 }

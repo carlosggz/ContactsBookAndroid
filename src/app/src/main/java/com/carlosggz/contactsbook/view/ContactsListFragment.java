@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.carlosggz.contactsbook.R;
+import com.carlosggz.contactsbook.view.adapters.ContactsListAdapter;
 import com.carlosggz.contactsbook.viewmodel.ContactsListViewModel;
 
 import java.util.ArrayList;

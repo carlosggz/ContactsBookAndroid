@@ -1,4 +1,4 @@
-package com.carlosggz.contactsbook.view;
+package com.carlosggz.contactsbook.view.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.carlosggz.contactsbook.R;
 import com.carlosggz.contactsbook.databinding.ContactItemBinding;
 import com.carlosggz.contactsbook.model.ContactInfo;
+import com.carlosggz.contactsbook.view.ContactSelectedListener;
+import com.carlosggz.contactsbook.view.ContactsListFragmentDirections;
 
 import java.util.ArrayList;
 import java.util.List;
