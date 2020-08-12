@@ -47,11 +47,25 @@ public class ContactDetails {
         return phoneNumbers;
     }
 
-    public void addEmail(String email) {
-        emailAddresses.add(email);
-    }
+    public void addEmail(String email) { emailAddresses.add(email); }
 
     public void addPhoneNumber(PhoneNumber phoneNumber) {
         phoneNumbers.add(phoneNumber);
+    }
+
+    public void deleteMail(int index) {
+
+        if (index < 0 || index >= emailAddresses.size())
+            return;
+
+        emailAddresses.remove(index);
+    }
+
+    public void deletePhone(int index) {
+
+        if (index < 0 || index >= phoneNumbers.size())
+            return;
+
+        phoneNumbers.remove(index);
     }
 }

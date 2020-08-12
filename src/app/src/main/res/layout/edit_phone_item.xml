@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" >
+    <data>
+        <variable
+            name="phone"
+            type="com.carlosggz.contactsbook.model.PhoneNumber" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <EditText
+            android:id="@+id/editTextPhone2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".50"
+            android:inputType="phone"
+            android:text="@{phone.phoneNumber}"
+            android:autofillHints=""
+            android:hint="123-456-7890" />
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".40"
+            android:entries="@array/phone_types" />
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.10"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_delete"
+            android:contentDescription="@string/delete"
+            android:id="@+id/btnDeletePhone"
+            />
+
+    </LinearLayout>
+</layout>

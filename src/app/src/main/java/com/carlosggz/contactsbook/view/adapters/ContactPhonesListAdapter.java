@@ -14,11 +14,11 @@ import com.carlosggz.contactsbook.model.PhoneNumber;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactPhoneListAdapter extends RecyclerView.Adapter<ContactPhoneListAdapter.ContactPhoneHolder> {
+public class ContactPhonesListAdapter extends RecyclerView.Adapter<ContactPhonesListAdapter.ContactPhoneHolder> {
 
     private ArrayList<PhoneNumber> phones;
 
-    public ContactPhoneListAdapter(List<PhoneNumber> phoneNumbers) {
+    public ContactPhonesListAdapter(List<PhoneNumber> phoneNumbers) {
         this.phones = new ArrayList<PhoneNumber>(phoneNumbers);
     }
 
@@ -30,14 +30,14 @@ public class ContactPhoneListAdapter extends RecyclerView.Adapter<ContactPhoneLi
 
     @NonNull
     @Override
-    public ContactPhoneListAdapter.ContactPhoneHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ContactPhonesListAdapter.ContactPhoneHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         DetailsPhoneItemBinding view = DataBindingUtil.inflate(inflater, R.layout.details_phone_item, parent, false);
-        return new ContactPhoneListAdapter.ContactPhoneHolder(view);
+        return new ContactPhonesListAdapter.ContactPhoneHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContactPhoneListAdapter.ContactPhoneHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ContactPhonesListAdapter.ContactPhoneHolder holder, int position) {
         holder.itemView.setPhone(phones.get(position));
     }
 

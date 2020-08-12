@@ -19,14 +19,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.carlosggz.contactsbook.R;
 import com.carlosggz.contactsbook.databinding.FragmentContactDetailsBinding;
 import com.carlosggz.contactsbook.model.PhoneNumber;
 import com.carlosggz.contactsbook.view.adapters.ContactEmailsListAdapter;
-import com.carlosggz.contactsbook.view.adapters.ContactPhoneListAdapter;
+import com.carlosggz.contactsbook.view.adapters.ContactPhonesListAdapter;
 import com.carlosggz.contactsbook.viewmodel.ContactDetailsViewModel;
 
 import java.util.ArrayList;
@@ -39,7 +37,7 @@ public class ContactDetailsFragment extends Fragment {
     ContactDetailsViewModel viewModel;
     FragmentContactDetailsBinding detailsBinding;
     ContactEmailsListAdapter emailsListAdapter = new ContactEmailsListAdapter(new ArrayList<String>());
-    ContactPhoneListAdapter phoneListAdapter = new ContactPhoneListAdapter(new ArrayList<PhoneNumber>());
+    ContactPhonesListAdapter phoneListAdapter = new ContactPhonesListAdapter(new ArrayList<PhoneNumber>());
 
     @BindView(R.id.contactEmails)
     RecyclerView contactEmails;

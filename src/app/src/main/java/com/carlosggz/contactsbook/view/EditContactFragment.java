@@ -4,22 +4,56 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.carlosggz.contactsbook.R;
+import com.carlosggz.contactsbook.databinding.FragmentEditContactBinding;
 import com.carlosggz.contactsbook.helpers.Utils;
-import com.carlosggz.contactsbook.viewmodel.ContactDetailsViewModel;
+import com.carlosggz.contactsbook.model.PhoneNumber;
+import com.carlosggz.contactsbook.view.adapters.ContactEmailsEditAdapter;
+import com.carlosggz.contactsbook.view.adapters.ContactEmailsListAdapter;
+import com.carlosggz.contactsbook.view.adapters.ContactPhonesEditAdapter;
+import com.carlosggz.contactsbook.view.adapters.ContactPhonesListAdapter;
 import com.carlosggz.contactsbook.viewmodel.EditContactViewModel;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class EditContactFragment extends Fragment {
 
     String contactId;
-    private EditContactViewModel viewModel;
+    EditContactViewModel viewModel;
+    FragmentEditContactBinding editBinding;
+
+    @BindView(R.id.emailsList)
+    RecyclerView emailsList;
+
+    @BindView(R.id.phonesList)
+    RecyclerView phonesList;
+
+    @BindView(R.id.btnAddEmail)
+    Button btnAddEmail;
+
+    @BindView(R.id.btnAddPhone)
+    Button btnAddPhone;
+
+    private ContactEmailsEditAdapter emailsAdapter ;
+    private ContactPhonesEditAdapter phonesAdapter ;
 
     public EditContactFragment() {
     }
@@ -31,7 +65,12 @@ public class EditContactFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_edit_contact, container, false);
+        FragmentEditContactBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_edit_contact, container, false);
+        editBinding = binding;
+        setHasOptionsMenu(true);
+        View view = binding.getRoot();
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -54,5 +93,47 @@ public class EditContactFragment extends Fragment {
         else {
             viewModel.loadContact(contactId);
         }
+
+        btnAddEmail.setOnClickListener(v -> viewModel.addEmail());
+        btnAddPhone.setOnClickListener(v -> viewModel.addPhone());
+
+        emailsAdapter = new ContactEmailsEditAdapter(new ArrayList<String>(), index -> viewModel.deleteMail(index));
+        emailsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        emailsList.setAdapter(emailsAdapter);
+        emailsList.setNestedScrollingEnabled(false);
+
+        phonesAdapter = new ContactPhonesEditAdapter(new ArrayList<PhoneNumber>(), index -> viewModel.deletePhone(index));
+        phonesList.setLayoutManager(new LinearLayoutManager(getContext()));
+        phonesList.setAdapter(phonesAdapter);
+        phonesList.setNestedScrollingEnabled(false);
+
+        viewModel.getContact().observe(getViewLifecycleOwner(), contact -> {
+            if(contact != null) {
+                editBinding.setContact(contact);
+                emailsAdapter.updateList(contact.getEmailAddresses());
+                phonesAdapter.updateList(contact.getPhoneNumbers());
+            }
+        });
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.edit_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save: {
+                break;
+            }
+            case R.id.action_cancel: {
+                break;
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
