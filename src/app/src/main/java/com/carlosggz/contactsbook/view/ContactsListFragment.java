@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.carlosggz.contactsbook.R;
 import com.carlosggz.contactsbook.view.adapters.ContactsListAdapter;
+import com.carlosggz.contactsbook.view.base.BaseFragment;
 import com.carlosggz.contactsbook.viewmodel.ContactsListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ContactsListFragment extends Fragment {
+public class ContactsListFragment extends BaseFragment {
 
     private ContactsListViewModel viewModel;
     private ContactsListAdapter contactsAdapter = new ContactsListAdapter(new ArrayList<>());
@@ -110,8 +111,7 @@ public class ContactsListFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        ((MainActivity)getActivity()).setActionBarTitle(getString(R.string.Contacts_List_Title));
+    protected String getTitle() {
+        return getString(R.string.Contacts_List_Title);
     }
 }

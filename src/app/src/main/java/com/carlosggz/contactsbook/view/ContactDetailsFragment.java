@@ -25,6 +25,7 @@ import com.carlosggz.contactsbook.databinding.FragmentContactDetailsBinding;
 import com.carlosggz.contactsbook.model.PhoneNumber;
 import com.carlosggz.contactsbook.view.adapters.ContactEmailsListAdapter;
 import com.carlosggz.contactsbook.view.adapters.ContactPhonesListAdapter;
+import com.carlosggz.contactsbook.view.base.BaseFragment;
 import com.carlosggz.contactsbook.viewmodel.ContactDetailsViewModel;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ContactDetailsFragment extends Fragment {
+public class ContactDetailsFragment extends BaseFragment {
 
     ContactDetailsViewModel viewModel;
     FragmentContactDetailsBinding detailsBinding;
@@ -83,9 +84,8 @@ public class ContactDetailsFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        ((MainActivity) getActivity()).setActionBarTitle(getString(R.string.Contact_Details_Title));
+    protected String getTitle() {
+        return getString(R.string.Contact_Details_Title);
     }
 
     @Override

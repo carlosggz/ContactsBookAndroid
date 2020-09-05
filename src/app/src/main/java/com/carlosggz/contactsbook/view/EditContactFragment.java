@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +29,7 @@ import com.carlosggz.contactsbook.view.adapters.ContactEmailsEditAdapter;
 import com.carlosggz.contactsbook.view.adapters.ContactEmailsListAdapter;
 import com.carlosggz.contactsbook.view.adapters.ContactPhonesEditAdapter;
 import com.carlosggz.contactsbook.view.adapters.ContactPhonesListAdapter;
+import com.carlosggz.contactsbook.view.base.BaseFragment;
 import com.carlosggz.contactsbook.viewmodel.EditContactViewModel;
 
 import java.util.ArrayList;
@@ -34,7 +37,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EditContactFragment extends Fragment {
+public class EditContactFragment extends BaseFragment {
 
     String contactId;
     private EditContactViewModel viewModel;
@@ -74,12 +77,6 @@ public class EditContactFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        ((MainActivity) getActivity()).setActionBarTitle(Utils.isEmptyOrNull(contactId) ? getString(R.string.add_contact_title) : getString(R.string.edit_contact_title));
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -95,13 +92,13 @@ public class EditContactFragment extends Fragment {
     }
 
     private void setObservers() {
-        viewModel.getEmailAddresses().observe(this, emails ->{
+        viewModel.getEmailAddresses().observe(getViewLifecycleOwner(), emails ->{
             if (emails != null) {
                 emailsAdapter.updateList(emails);
             }
         });
 
-        viewModel.getPhoneNumbers().observe(this, phones ->{
+        viewModel.getPhoneNumbers().observe(getViewLifecycleOwner(), phones ->{
             if (phones != null) {
                 phonesAdapter.updateList(phones);
             }
@@ -114,11 +111,11 @@ public class EditContactFragment extends Fragment {
 
         emailsList.setLayoutManager(new LinearLayoutManager(getContext()));
         emailsList.setAdapter(emailsAdapter);
-        emailsList.setNestedScrollingEnabled(true);
+        emailsList.setNestedScrollingEnabled(false);
 
         phonesList.setLayoutManager(new LinearLayoutManager(getContext()));
         phonesList.setAdapter(phonesAdapter);
-        phonesList.setNestedScrollingEnabled(true);
+        phonesList.setNestedScrollingEnabled(false);
     }
 
     private void initializeViewModel() {
@@ -144,11 +141,15 @@ public class EditContactFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.action_save: {
+                viewModel.save();
+                Navigation.findNavController(editBinding.getRoot()).popBackStack();
                 break;
             }
             case R.id.action_cancel: {
+                Navigation.findNavController(editBinding.getRoot()).popBackStack();
                 break;
             }
         }
@@ -156,4 +157,8 @@ public class EditContactFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected String getTitle() {
+        return Utils.isEmptyOrNull(contactId) ? getString(R.string.add_contact_title) : getString(R.string.edit_contact_title);
+    }
 }

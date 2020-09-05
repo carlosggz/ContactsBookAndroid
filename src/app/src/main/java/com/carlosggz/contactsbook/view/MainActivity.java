@@ -10,13 +10,14 @@ import androidx.navigation.ui.NavigationUI;
 import android.os.Bundle;
 
 import com.carlosggz.contactsbook.R;
+import com.carlosggz.contactsbook.view.base.BaseActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Objects;
 
 import butterknife.BindView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private NavController navController;
 
@@ -34,10 +35,5 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, (DrawerLayout)null);
     }
 
-    public void setActionBarTitle(String title) {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(title);
-        }
-    }
+
 }

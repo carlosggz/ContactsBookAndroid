@@ -92,4 +92,8 @@ public class EditContactViewModel extends ViewModel {
         phones.remove(index);
         phoneNumbers.setValue(phones);
     }
+
+    public void save() {
+
+    }
 }
