@@ -11,21 +11,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.carlosggz.contactsbook.R;
 import com.carlosggz.contactsbook.databinding.DetailsEmailItemBinding;
 import com.carlosggz.contactsbook.databinding.EditMailItemBinding;
+import com.carlosggz.contactsbook.model.EmailItem;
+import com.carlosggz.contactsbook.view.listeners.ItemDeleteListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactEmailsEditAdapter  extends RecyclerView.Adapter<ContactEmailsEditAdapter.ContactEmailsEditHolder> {
 
-    private ArrayList<String> emails;
+    private ArrayList<EmailItem> emails;
     private ItemDeleteListener listener;
 
-    public ContactEmailsEditAdapter(List<String> emails, ItemDeleteListener listener) {
-        this.emails =  new ArrayList<String>(emails);
+    public ContactEmailsEditAdapter(List<EmailItem> emails, ItemDeleteListener listener) {
+        this.emails =  new ArrayList<EmailItem>(emails);
         this.listener = listener;
     }
 
-    public void updateList(List<String> emails) {
+    public void updateList(List<EmailItem> emails) {
         this.emails.clear();
         this.emails.addAll(emails);
         notifyDataSetChanged();
@@ -40,9 +42,9 @@ public class ContactEmailsEditAdapter  extends RecyclerView.Adapter<ContactEmail
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ContactEmailsEditHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ContactEmailsEditAdapter.ContactEmailsEditHolder holder, int position) {
         holder.itemView.setEmail(emails.get(position));
-        ImageButton btnDelete = holder.itemView.getRoot().findViewById(R.id.btnDeleteMail);
+        ImageButton btnDelete = holder.itemView.getRoot().findViewById(R.id.btnDeleteEmail);
         btnDelete.setOnClickListener(v -> listener.Delete(position));
     }
 

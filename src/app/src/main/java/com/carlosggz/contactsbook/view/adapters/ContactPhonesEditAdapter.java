@@ -12,6 +12,7 @@ import com.carlosggz.contactsbook.R;
 import com.carlosggz.contactsbook.databinding.DetailsPhoneItemBinding;
 import com.carlosggz.contactsbook.databinding.EditPhoneItemBinding;
 import com.carlosggz.contactsbook.model.PhoneNumber;
+import com.carlosggz.contactsbook.view.listeners.ItemDeleteListener;
 
 import java.util.ArrayList;
 import java.util.List;

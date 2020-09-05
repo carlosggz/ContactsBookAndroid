@@ -2,13 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
-            name="contact"
-            type="com.carlosggz.contactsbook.model.ContactDetails" />
+            name="viewmodel"
+            type="com.carlosggz.contactsbook.viewmodel.EditContactViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="false">
@@ -33,7 +35,7 @@
                 android:layout_marginTop="5dp"
                 android:hint="@string/type_a_first_name"
                 android:inputType="textPersonName"
-                android:text="@{contact.firstName}"
+                android:text="@={viewmodel.firstName}"
                 />
 
             <TextView
@@ -49,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
-                android:text="@{contact.lastName}"
+                android:text="@={viewmodel.lastName}"
                 android:hint="@string/type_a_last_name"
                 android:inputType="textPersonName" />
 
@@ -66,16 +68,23 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp" />
 
-            <Button
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/add_email_address"
-                android:drawableStart="@drawable/ic_add"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="5dp"
-                android:id="@+id/btnAddEmail"
-                />
+                android:layout_gravity="center|center_vertical"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/btnAddEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:drawableLeft="@drawable/ic_add"
+                    android:text="@string/add_email_address"
+                    />
+
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,17 +108,23 @@
 
             </LinearLayout>
 
-            <Button
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/add_phone_number"
-                android:drawableStart="@drawable/ic_add"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="5dp"
-                android:id="@+id/btnAddPhone"
-                />
+                android:layout_gravity="center|center_vertical"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/btnAddPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:drawableLeft="@drawable/ic_add"
+                    android:text="@string/add_phone_number"
+                    />
+
+            </LinearLayout>
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView >
+    </ScrollView>
 </layout>

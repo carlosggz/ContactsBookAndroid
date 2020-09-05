@@ -23,6 +23,7 @@
     <string name="delete">Delete</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
+    <string name="phone_mask">123-456-7890</string>
     <string-array name="phone_types">
         <item>Work</item>
         <item>Home</item>
