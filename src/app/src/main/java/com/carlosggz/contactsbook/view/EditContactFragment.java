@@ -83,6 +83,45 @@ public class EditContactFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        initializeViewModel();
+        initializeLists();
+        setEventHandlers();
+        setObservers();
+    }
+
+    private void setEventHandlers() {
+        btnAddEmail.setOnClickListener(v -> viewModel.addEmail());
+        btnAddPhone.setOnClickListener(v -> viewModel.addPhone());
+    }
+
+    private void setObservers() {
+        viewModel.getEmailAddresses().observe(this, emails ->{
+            if (emails != null) {
+                emailsAdapter.updateList(emails);
+            }
+        });
+
+        viewModel.getPhoneNumbers().observe(this, phones ->{
+            if (phones != null) {
+                phonesAdapter.updateList(phones);
+            }
+        });
+    }
+
+    private void initializeLists() {
+        emailsAdapter = new ContactEmailsEditAdapter(new ArrayList<>(), index -> viewModel.deleteEmail(index));
+        phonesAdapter = new ContactPhonesEditAdapter(new ArrayList<>(), index -> viewModel.deletePhone(index));
+
+        emailsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        emailsList.setAdapter(emailsAdapter);
+        emailsList.setNestedScrollingEnabled(true);
+
+        phonesList.setLayoutManager(new LinearLayoutManager(getContext()));
+        phonesList.setAdapter(phonesAdapter);
+        phonesList.setNestedScrollingEnabled(true);
+    }
+
+    private void initializeViewModel() {
         contactId = getArguments() != null ? EditContactFragmentArgs.fromBundle(getArguments()).getContactId() : null;
 
         viewModel = ViewModelProviders.of(this).get(EditContactViewModel.class);
@@ -95,32 +134,6 @@ public class EditContactFragment extends Fragment {
         }
 
         editBinding.setViewmodel(viewModel);
-
-        btnAddEmail.setOnClickListener(v -> viewModel.addEmail());
-        btnAddPhone.setOnClickListener(v -> viewModel.addPhone());
-
-        emailsAdapter = new ContactEmailsEditAdapter(new ArrayList<>(), index -> viewModel.deleteEmail(index));
-        phonesAdapter = new ContactPhonesEditAdapter(new ArrayList<>(), index -> viewModel.deletePhone(index));
-
-        emailsList.setLayoutManager(new LinearLayoutManager(getContext()));
-        emailsList.setAdapter(emailsAdapter);
-        emailsList.setNestedScrollingEnabled(false);
-
-        phonesList.setLayoutManager(new LinearLayoutManager(getContext()));
-        phonesList.setAdapter(phonesAdapter);
-        phonesList.setNestedScrollingEnabled(false);
-
-        viewModel.getEmailAddresses().observe(this, emails ->{
-            if (emails != null) {
-                emailsAdapter.updateList(emails);
-            }
-        });
-
-        viewModel.getPhoneNumbers().observe(this, phones ->{
-            if (phones != null) {
-                phonesAdapter.updateList(phones);
-            }
-        });
     }
 
     @Override
