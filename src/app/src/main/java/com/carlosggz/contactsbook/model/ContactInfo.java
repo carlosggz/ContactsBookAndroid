@@ -16,6 +16,14 @@ public class ContactInfo {
         this.phonesCount = phonesCount;
     }
 
+    public ContactInfo(ContactDetails details) {
+        this.contactId = details.getContactId();
+        this.firstName = details.getFirstName();
+        this.lastName = details.getLastName();
+        this.emailsCount = details.getEmailAddresses().size();
+        this.phonesCount = details.getPhoneNumbers().size();
+    }
+
     public String getContactId() {
         return contactId;
     }

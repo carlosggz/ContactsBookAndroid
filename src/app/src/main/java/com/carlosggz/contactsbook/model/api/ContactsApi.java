@@ -28,5 +28,5 @@ public interface ContactsApi {
     Single<ApiResult> update(@Body ContactDetails contact);
 
     @DELETE("/api/Contacts/Delete/{id}")
-    Single<ContactDetails> delete(@Path("id") String id);
+    Single<ApiResult> delete(@Path("id") String id);
 }

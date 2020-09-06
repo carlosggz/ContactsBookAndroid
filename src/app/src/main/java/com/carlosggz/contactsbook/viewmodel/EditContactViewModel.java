@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class EditContactViewModel extends ViewModel {
+public class EditContactViewModel extends BaseViewModel {
 
     //Private members
     private Optional<String> _id = Optional.empty();

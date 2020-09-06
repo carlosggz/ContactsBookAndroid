@@ -11,7 +11,7 @@ import com.carlosggz.contactsbook.model.PhoneType;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactDetailsViewModel extends ViewModel {
+public class ContactDetailsViewModel extends BaseViewModel {
 
     private MutableLiveData<ContactDetails> contact = new MutableLiveData<ContactDetails>();
 

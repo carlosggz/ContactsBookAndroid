@@ -2,6 +2,7 @@ package com.carlosggz.contactsbook.di;
 
 import com.carlosggz.contactsbook.model.Constants;
 import com.carlosggz.contactsbook.model.api.ContactsApi;
+import com.carlosggz.contactsbook.model.api.InMemoryContactsApi;
 import com.carlosggz.contactsbook.model.services.ContactsService;
 
 import dagger.Module;
@@ -15,12 +16,15 @@ public class ContactsApiModule {
 
     @Provides
     public ContactsApi provideContactsApi() {
-        return new Retrofit.Builder()
+
+        return InMemoryContactsApi.getInstance();
+
+        /*return new Retrofit.Builder()
                 .baseUrl(Constants.CONTACTS_API_URL) //Api url
                 .addConverterFactory(GsonConverterFactory.create()) //Mapping from json to classes
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) //Async result on calls
                 .build()
-                .create(ContactsApi.class);
+                .create(ContactsApi.class); */
     }
 
     @Provides
