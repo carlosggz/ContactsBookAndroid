@@ -14,22 +14,29 @@ import java.util.List;
 public class ContactDetailsViewModel extends BaseViewModel {
 
     private MutableLiveData<ContactDetails> contact = new MutableLiveData<ContactDetails>();
+    private MutableLiveData<Boolean> errorLoading = new MutableLiveData<Boolean>(false);
+    private MutableLiveData<String> errorDeleting = new MutableLiveData<String>("");
+    private MutableLiveData<Boolean> contactDeleted = new MutableLiveData<Boolean>(false);
 
-    public LiveData<ContactDetails> getContact() {
-        return contact;
-    }
+    public LiveData<ContactDetails> getContact() { return contact; }
+    public LiveData<Boolean> getErrorLoading() { return errorLoading; }
+    public LiveData<String> getErrorDeleting() { return errorDeleting; }
+    public LiveData<Boolean> getContactDeleted() { return contactDeleted; }
 
     public void loadContact(String contactId) {
-        ContactDetails details = new ContactDetails(
-                contactId,
-                "Peter",
-                "Parker",
-                List.of("peterparker@gmail.com", "pp@gmail.com"),
-                List.of(new PhoneNumber(PhoneType.HOME, "123-456-7890"), new PhoneNumber(PhoneType.WORK, "111-222-3333"))
-        );
-        contact.setValue(details);
+
+        this.contactsService
+                .getContact(contactId)
+                .doOnSuccess(c -> contact.setValue(c))
+                .doOnError(x -> errorLoading.setValue(true))
+                .subscribe();
     }
 
     public void deleteContact() {
+        this.contactsService
+                .deleteContact(contact.getValue().getContactId())
+                .doOnSuccess(c -> contactDeleted.setValue(true))
+                .doOnError(x -> errorDeleting.setValue(x.getMessage()))
+                .subscribe();
     }
 }

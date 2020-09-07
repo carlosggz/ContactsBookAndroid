@@ -103,6 +103,24 @@ public class EditContactFragment extends BaseFragment {
                 phonesAdapter.updateList(phones);
             }
         });
+
+        viewModel.getErrorLoading().observe(getViewLifecycleOwner(), error -> {
+            if (error != null && error) {
+                displayMessage(getString(R.string.error), getString(R.string.error_loading_contact), this::back);
+            }
+        });
+
+        viewModel.getErrorSaving().observe(getViewLifecycleOwner(), error -> {
+            if (!Utils.isNullOrWhiteSpace(error)) {
+                displayMessage(getString(R.string.error), getString(R.string.error_saving_contact) + ": " + error);
+            }
+        });
+
+        viewModel.getSavedSuccessfully().observe(getViewLifecycleOwner(), saved -> {
+            if (saved != null && saved) {
+                back();
+            }
+        });
     }
 
     private void initializeLists() {
@@ -145,11 +163,10 @@ public class EditContactFragment extends BaseFragment {
         switch (item.getItemId()) {
             case R.id.action_save: {
                 viewModel.save();
-                Navigation.findNavController(editBinding.getRoot()).popBackStack();
                 break;
             }
             case R.id.action_cancel: {
-                Navigation.findNavController(editBinding.getRoot()).popBackStack();
+                back();
                 break;
             }
         }
@@ -160,5 +177,9 @@ public class EditContactFragment extends BaseFragment {
     @Override
     protected String getTitle() {
         return Utils.isEmptyOrNull(contactId) ? getString(R.string.add_contact_title) : getString(R.string.edit_contact_title);
+    }
+
+    private void back() {
+        Navigation.findNavController(editBinding.getRoot()).popBackStack();
     }
 }

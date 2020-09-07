@@ -24,6 +24,10 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="phone_mask">123-456-7890</string>
+    <string name="OK">Ok</string>
+    <string name="error">Error</string>
+    <string name="error_loading_contact">Error loading contact</string>
+    <string name="error_saving_contact">Error saving contact, please check the error and try again</string>
     <string-array name="phone_types">
         <item>Work</item>
         <item>Home</item>

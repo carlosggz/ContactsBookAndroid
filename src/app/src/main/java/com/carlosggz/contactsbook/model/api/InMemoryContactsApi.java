@@ -3,8 +3,10 @@ package com.carlosggz.contactsbook.model.api;
 import com.carlosggz.contactsbook.model.ContactDetails;
 import com.carlosggz.contactsbook.model.ContactInfo;
 import com.carlosggz.contactsbook.model.PhoneNumber;
+import com.carlosggz.contactsbook.model.PhoneType;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +21,8 @@ public class InMemoryContactsApi implements ContactsApi {
     private InMemoryContactsApi() {
 
         contacts = new ArrayList<ContactDetails>();
+        contacts.add(new ContactDetails("111", "peter", "parker", List.of("pp@home.es"), List.of(new PhoneNumber(PhoneType.HOME, "123434"))));
+        contacts.add(new ContactDetails("222", "clark", "kent", List.of("ck@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "122222"))));
     }
 
     public static InMemoryContactsApi getInstance() {
@@ -42,7 +46,7 @@ public class InMemoryContactsApi implements ContactsApi {
 
     @Override
     public Single<ApiResult> add(ContactDetails contact) {
-        ContactDetails newContact = new ContactDetails("", contact.getFirstName(), contact.getLastName(), contact.getEmailAddresses(), contact.getPhoneNumbers());
+        ContactDetails newContact = new ContactDetails(String.valueOf(new Date().getTime()), contact.getFirstName(), contact.getLastName(), contact.getEmailAddresses(), contact.getPhoneNumbers());
         contacts.add(newContact);
         ApiResult result = new ApiResult(newContact.getContactId(), true, List.of());
         return Single.just(result);
