@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.carlosggz.contactsbook.helpers.Utils;
 import com.carlosggz.contactsbook.model.ContactDetails;
 import com.carlosggz.contactsbook.model.ContactInfo;
 import com.carlosggz.contactsbook.model.EmailItem;
@@ -27,11 +28,12 @@ public class EditContactViewModel extends BaseViewModel {
     private Optional<String> _id = Optional.empty();
     private MutableLiveData<String> firstName = new MutableLiveData<String>("");
     private MutableLiveData<String> lastName = new MutableLiveData<String>("");
-    private MutableLiveData<List<EmailItem>> emailAddresses = new MutableLiveData<List<EmailItem>>(new ArrayList<EmailItem>());
-    private MutableLiveData<List<PhoneNumber>> phoneNumbers = new MutableLiveData<List<PhoneNumber>>(new ArrayList<PhoneNumber>());
+    private MutableLiveData<List<EmailItem>> emailAddresses = new MutableLiveData<List<EmailItem>>(List.of());
+    private MutableLiveData<List<PhoneNumber>> phoneNumbers = new MutableLiveData<List<PhoneNumber>>(List.of());
     private MutableLiveData<Boolean> errorLoading = new MutableLiveData<Boolean>(false);
     private MutableLiveData<String> errorSaving = new MutableLiveData<String>("");
     private MutableLiveData<Boolean> savedSuccessfully = new MutableLiveData<Boolean>(false);
+    private MutableLiveData<List<String>> validationErrors = new MutableLiveData<List<String>>(List.of());
 
     //Getters
     public Optional<String> getId() {
@@ -57,6 +59,8 @@ public class EditContactViewModel extends BaseViewModel {
     public LiveData<String> getErrorSaving() { return errorSaving; }
 
     public LiveData<Boolean> getSavedSuccessfully() { return savedSuccessfully; }
+
+    public LiveData<List<String>> getValidationErrors() { return validationErrors;}
 
     //Methods to access contacts
 
@@ -109,8 +113,14 @@ public class EditContactViewModel extends BaseViewModel {
     public void save() {
 
         errorSaving.setValue("");
-
+        validationErrors.setValue(List.of());
         ContactDetails contact = toContact();
+        List<String> validations = validate(contact);
+
+        if (validations.size() > 0) {
+            validationErrors.setValue(validations);
+            return;
+        }
 
         (!_id.isPresent() ? this.contactsService.addContact(contact) : this.contactsService.updateContact(contact))
                 .doOnSuccess(x -> savedSuccessfully.setValue(true))
@@ -134,8 +144,41 @@ public class EditContactViewModel extends BaseViewModel {
                 _id.orElse(null),
                 firstName.getValue(),
                 lastName.getValue(),
-                emailAddresses.getValue().stream().map(x -> x.getEmail()).collect(Collectors.toList()),
+                emailAddresses.getValue().stream().map(EmailItem::getEmail).collect(Collectors.toList()),
                 phoneNumbers.getValue()
         );
+    }
+
+    private List<String> validate(ContactDetails contact) {
+
+        ArrayList<String> errors = new ArrayList<String>();
+
+        if (Utils.isNullOrWhiteSpace(contact.getFirstName())) {
+            errors.add("Type a valid first name");
+        }
+
+        if (Utils.isNullOrWhiteSpace(contact.getLastName())) {
+            errors.add("Type a valid last name");
+        }
+
+        List<String> emails = contact.getEmailAddresses();
+
+        if (emails.stream().anyMatch(x -> !Utils.isValidEmail(x))) {
+            errors.add("There are invalid emails");
+        }
+        else if (emails.stream().distinct().count() != emails.size()) {
+            errors.add("There are repeated emails");
+        }
+
+        List<String> phoneNumbers = contact.getPhoneNumbers().stream().map(PhoneNumber::getPhoneNumber).collect(Collectors.toList());
+
+        if (phoneNumbers.stream().anyMatch(x -> !Utils.isValidPhone(x))) {
+            errors.add("There are invalid phone numbers");
+        }
+        else if (phoneNumbers.stream().distinct().count() != phoneNumbers.size()) {
+            errors.add("There are repeated phone numbers");
+        }
+
+        return errors;
     }
 }

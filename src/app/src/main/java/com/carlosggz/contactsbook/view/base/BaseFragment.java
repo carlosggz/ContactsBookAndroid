@@ -29,4 +29,8 @@ public abstract class BaseFragment extends Fragment {
     protected void displayMessage(String title, String message) {
         MessagingUtils.displayAlert(title, message, () -> {}, this.getContext());
     }
+
+    protected void displayList(String title, String[] messages) {
+        MessagingUtils.displayMessagesList(title, messages, () -> {}, this.getContext());
+    }
 }
