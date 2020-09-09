@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -92,33 +93,42 @@ public class EditContactFragment extends BaseFragment {
     }
 
     private void setObservers() {
-        viewModel.getEmailAddresses().observe(getViewLifecycleOwner(), emails ->{
+
+        LifecycleOwner lco = getViewLifecycleOwner();
+
+        viewModel.getEmailAddresses().observe(lco, emails ->{
             if (emails != null) {
                 emailsAdapter.updateList(emails);
             }
         });
 
-        viewModel.getPhoneNumbers().observe(getViewLifecycleOwner(), phones ->{
+        viewModel.getPhoneNumbers().observe(lco, phones ->{
             if (phones != null) {
                 phonesAdapter.updateList(phones);
             }
         });
 
-        viewModel.getErrorLoading().observe(getViewLifecycleOwner(), error -> {
+        viewModel.getErrorLoading().observe(lco, error -> {
             if (error != null && error) {
                 displayMessage(getString(R.string.error), getString(R.string.error_loading_contact), this::back);
             }
         });
 
-        viewModel.getErrorSaving().observe(getViewLifecycleOwner(), error -> {
+        viewModel.getErrorSaving().observe(lco, error -> {
             if (!Utils.isNullOrWhiteSpace(error)) {
                 displayMessage(getString(R.string.error), getString(R.string.error_saving_contact) + ": " + error);
             }
         });
 
-        viewModel.getSavedSuccessfully().observe(getViewLifecycleOwner(), saved -> {
+        viewModel.getSavedSuccessfully().observe(lco, saved -> {
             if (saved != null && saved) {
                 back();
+            }
+        });
+
+        viewModel.getValidationErrors().observe(lco, errors ->{
+            if (errors != null && errors.size() > 0) {
+                displayList("Verify the following errors:", errors.stream().toArray(String[]::new));
             }
         });
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:mask="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="phone"
@@ -13,7 +14,7 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <EditText
+        <br.com.sapereaude.maskedEditText.MaskedEditText
             android:id="@+id/editTextPhone2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -21,7 +22,10 @@
             android:inputType="phone"
             android:text="@={phone.phoneNumber}"
             android:autofillHints=""
-            android:hint="@string/phone_mask" />
+            android:hint="@string/phone_mask"
+            mask:mask="###-###-####"
+            mask:allowed_chars="1234567890"
+            />
 
         <Spinner
             android:id="@+id/spinner2"
