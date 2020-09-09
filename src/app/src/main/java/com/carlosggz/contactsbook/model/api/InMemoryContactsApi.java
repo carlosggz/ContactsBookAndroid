@@ -21,10 +21,10 @@ public class InMemoryContactsApi implements ContactsApi {
     private InMemoryContactsApi() {
 
         contacts = new ArrayList<ContactDetails>();
-        contacts.add(new ContactDetails("111", "Peter", "Parker", List.of("peterparker@home.es"), List.of(new PhoneNumber(PhoneType.HOME, "123434"))));
-        contacts.add(new ContactDetails("222", "Clark", "Kent", List.of("clarkkent@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "122222"))));
-        contacts.add(new ContactDetails("333", "Barry", "Alen", List.of("ballen@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "2121313"))));
-        contacts.add(new ContactDetails("333", "Bruce", "Wayne", List.of("bruce@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "21212222"))));
+        contacts.add(new ContactDetails("111", "Peter", "Parker", List.of("peterparker@home.es"), List.of(new PhoneNumber(PhoneType.HOME, "123-456-7890"))));
+        contacts.add(new ContactDetails("222", "Clark", "Kent", List.of("clarkkent@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
+        contacts.add(new ContactDetails("333", "Barry", "Alen", List.of("ballen@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
+        contacts.add(new ContactDetails("333", "Bruce", "Wayne", List.of("bruce@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
     }
 
     public static InMemoryContactsApi getInstance() {
