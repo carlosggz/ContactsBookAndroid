@@ -21,8 +21,10 @@ public class InMemoryContactsApi implements ContactsApi {
     private InMemoryContactsApi() {
 
         contacts = new ArrayList<ContactDetails>();
-        contacts.add(new ContactDetails("111", "peter", "parker", List.of("pp@home.es"), List.of(new PhoneNumber(PhoneType.HOME, "123434"))));
-        contacts.add(new ContactDetails("222", "clark", "kent", List.of("ck@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "122222"))));
+        contacts.add(new ContactDetails("111", "Peter", "Parker", List.of("peterparker@home.es"), List.of(new PhoneNumber(PhoneType.HOME, "123434"))));
+        contacts.add(new ContactDetails("222", "Clark", "Kent", List.of("clarkkent@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "122222"))));
+        contacts.add(new ContactDetails("333", "Barry", "Alen", List.of("ballen@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "2121313"))));
+        contacts.add(new ContactDetails("333", "Bruce", "Wayne", List.of("bruce@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "21212222"))));
     }
 
     public static InMemoryContactsApi getInstance() {

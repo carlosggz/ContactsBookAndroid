@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="contact"
             type="com.carlosggz.contactsbook.model.ContactInfo" />
@@ -11,31 +13,85 @@
             type="com.carlosggz.contactsbook.view.ContactSelectedListener" />
     </data>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-         android:onClick="@{listener::onContactSelected}"
-        android:padding="5dp">
-        <TextView
-            android:id="@+id/contactId"
+        android:layout_height="100dp"
+        android:onClick="@{listener::onContactSelected}"
+        card_view:cardBackgroundColor="@color/cardBackground"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="5dp"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:text="@{contact.contactId}"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@{contact.firstName}"
-            android:id="@+id/contactFirstName"
-            android:padding="5dp" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@{contact.lastName}"
-            android:id="@+id/contactLastName"
-            android:padding="5dp" />
-    </LinearLayout>
+            android:layout_height="100dp"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/contactId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{contact.contactId}"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/contactFirstName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                style="@style/ListItemName"
+                android:text='@{contact.firstName + " " + contact.lastName}' />
+
+            <ImageView
+                android:id="@+id/phonesCountLabel"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/contactFirstName"
+                android:contentDescription="@string/phones"
+                style="@style/IconHome"
+                card_view:srcCompat="@drawable/ic_phone" />
+
+            <TextView
+                android:id="@+id/phonesCountValue"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/contactFirstName"
+                android:layout_alignParentEnd="false"
+                android:layout_toEndOf="@id/phonesCountLabel"
+                android:padding="5dp"
+                android:text='@{String.valueOf(contact.phonesCount)}' />
+
+            <ImageView
+                android:id="@+id/emailsCountLabel"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/contactFirstName"
+                android:layout_alignParentEnd="false"
+                android:layout_toEndOf="@id/phonesCountValue"
+                android:contentDescription="@string/emails"
+                style="@style/IconHome"
+                card_view:srcCompat="@drawable/ic_email" />
+
+            <TextView
+                android:id="@+id/emailsCountValue"
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/contactFirstName"
+                android:layout_alignParentEnd="false"
+                android:layout_toEndOf="@id/emailsCountLabel"
+                android:padding="5dp"
+                android:text='@{String.valueOf(contact.emailsCount)}' />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 
 
 </layout>

@@ -16,10 +16,13 @@
 
         <TextView
             android:id="@+id/contactName"
+            style="@style/DetailsContactName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_margin="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             android:text='@{contact.firstName + " " + contact.lastName}'
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,9 +31,11 @@
 
         <TextView
             android:id="@+id/contactEmailAddresses"
+            style="@style/DetailsCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
             android:text="@string/email_addresses"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contactName" />
@@ -39,15 +44,19 @@
             android:id="@+id/contactEmails"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contactEmailAddresses" />
 
         <TextView
             android:id="@+id/contactPhoneNumbers"
+            style="@style/DetailsCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
             android:text="@string/phone_numbers"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contactEmails" />
@@ -56,6 +65,8 @@
             android:id="@+id/contactPhones"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contactPhoneNumbers" />

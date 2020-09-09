@@ -18,7 +18,6 @@
     <string name="type_a_last_name">Type a last name</string>
     <string name="emails">Emails</string>
     <string name="add_email_address">Add email address</string>
-    <string name="phones">Phones</string>
     <string name="add_phone_number">Add phone number</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
@@ -28,6 +27,7 @@
     <string name="error">Error</string>
     <string name="error_loading_contact">Error loading contact</string>
     <string name="error_saving_contact">Error saving contact, please check the error and try again</string>
+    <string name="phones">Phones</string>
     <string-array name="phone_types">
         <item>Work</item>
         <item>Home</item>
