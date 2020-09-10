@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 import com.carlosggz.contactsbook.di.DaggerContactsApiComponent;
 import com.carlosggz.contactsbook.model.ContactInfo;
 import com.carlosggz.contactsbook.model.api.SearchContactsRequest;
+import com.carlosggz.contactsbook.model.api.SearchContactsResponse;
 import com.carlosggz.contactsbook.model.services.ContactsService;
 
 import org.reactivestreams.Subscriber;
@@ -22,8 +23,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class ContactsListViewModel extends BaseViewModel {
 
@@ -45,21 +48,18 @@ public class ContactsListViewModel extends BaseViewModel {
         contactsLoadingError.setValue(false);
         isLoading.setValue(true);
 
-        Disposable disposable = contactsService
-                .searchContacts(new SearchContactsRequest(1,1, ""))
-                .subscribeWith(new DisposableSingleObserver<List<ContactInfo>>() {
-
-                    @Override
-                    public void onSuccess(List<ContactInfo> contactInfos) {
-                        contacts.setValue(contactInfos);
-                        isLoading.setValue(false);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        contactsLoadingError.setValue(true);
-                        isLoading.setValue(false);
-                    }
-                });
+        contactsService
+                .searchContacts(new SearchContactsRequest(1,1000, ""))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(response -> {
+                    contacts.setValue(response.results);
+                    isLoading.setValue(false);
+                })
+                .doOnError(e -> {
+                    contactsLoadingError.setValue(true);
+                    isLoading.setValue(false);
+                })
+                .subscribe();
     }
 }

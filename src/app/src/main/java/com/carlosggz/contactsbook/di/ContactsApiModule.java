@@ -17,15 +17,18 @@ public class ContactsApiModule {
     @Provides
     public ContactsApi provideContactsApi() {
 
-        return InMemoryContactsApi.getInstance();
+        if (Constants.USE_IN_MEMORY_API) {
+            return InMemoryContactsApi.getInstance();
+        }
 
-        /*return new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .baseUrl(Constants.CONTACTS_API_URL) //Api url
                 .addConverterFactory(GsonConverterFactory.create()) //Mapping from json to classes
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) //Async result on calls
                 .build()
-                .create(ContactsApi.class); */
+                .create(ContactsApi.class);
     }
+
 
     @Provides
     public ContactsService providesContactsService() {

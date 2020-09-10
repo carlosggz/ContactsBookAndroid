@@ -5,22 +5,26 @@ import java.util.List;
 
 public class ContactDetails {
 
-    private String contactId ;
+    private String id;
     private String firstName ;
     private String lastName ;
     private ArrayList<String> emailAddresses;
     private ArrayList<PhoneNumber> phoneNumbers;
 
-    public ContactDetails(String contactId, String firstName, String lastName, List<String> emailAddresses, List<PhoneNumber> phoneNumbers) {
-        this.contactId = contactId;
+    public ContactDetails(String id, String firstName, String lastName, List<String> emailAddresses, List<PhoneNumber> phoneNumbers) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddresses = new ArrayList<>(emailAddresses);
         this.phoneNumbers = new ArrayList<>(phoneNumbers);
     }
 
-    public String getContactId() {
-        return contactId;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFirstName() {

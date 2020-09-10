@@ -2,14 +2,11 @@ package com.carlosggz.contactsbook.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.carlosggz.contactsbook.model.ContactDetails;
-import com.carlosggz.contactsbook.model.PhoneNumber;
-import com.carlosggz.contactsbook.model.PhoneType;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class ContactDetailsViewModel extends BaseViewModel {
 
@@ -27,6 +24,8 @@ public class ContactDetailsViewModel extends BaseViewModel {
 
         this.contactsService
                 .getContact(contactId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(c -> contact.setValue(c))
                 .doOnError(x -> errorLoading.setValue(true))
                 .subscribe();
@@ -34,7 +33,9 @@ public class ContactDetailsViewModel extends BaseViewModel {
 
     public void deleteContact() {
         this.contactsService
-                .deleteContact(contact.getValue().getContactId())
+                .deleteContact(contact.getValue().getId())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(c -> contactDeleted.setValue(true))
                 .doOnError(x -> errorDeleting.setValue(x.getMessage()))
                 .subscribe();

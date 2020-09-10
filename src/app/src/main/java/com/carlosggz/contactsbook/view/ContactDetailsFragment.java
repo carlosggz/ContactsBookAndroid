@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -111,7 +110,7 @@ public class ContactDetailsFragment extends BaseFragment {
     }
 
     private void editContact() {
-        navigateToAction(ContactDetailsFragmentDirections.actionEdit(viewModel.getContact().getValue().getContactId()));
+        navigateToAction(ContactDetailsFragmentDirections.actionEdit(viewModel.getContact().getValue().getId()));
     }
 
     private void deleteContact() {

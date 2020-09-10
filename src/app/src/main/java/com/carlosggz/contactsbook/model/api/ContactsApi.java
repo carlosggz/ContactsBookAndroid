@@ -16,7 +16,7 @@ import retrofit2.http.Path;
 public interface ContactsApi {
 
     @POST("/api/Contacts/Search")
-    Single<List<ContactInfo>> search(SearchContactsRequest request);
+    Single<SearchContactsResponse> search(@Body SearchContactsRequest request);
 
     @GET("/api/Contacts/Get/{id}")
     Single<ContactDetails> get(@Path("id") String id);

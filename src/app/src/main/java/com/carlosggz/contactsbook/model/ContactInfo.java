@@ -17,7 +17,7 @@ public class ContactInfo {
     }
 
     public ContactInfo(ContactDetails details) {
-        this.contactId = details.getContactId();
+        this.contactId = details.getId();
         this.firstName = details.getFirstName();
         this.lastName = details.getLastName();
         this.emailsCount = details.getEmailAddresses().size();

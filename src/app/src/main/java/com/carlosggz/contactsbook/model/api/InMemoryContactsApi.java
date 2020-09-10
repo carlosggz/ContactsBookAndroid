@@ -40,9 +40,9 @@ public class InMemoryContactsApi implements ContactsApi {
     }
 
     @Override
-    public Single<List<ContactInfo>> search(SearchContactsRequest request) {
+    public Single<SearchContactsResponse> search(SearchContactsRequest request) {
         List<ContactInfo> toReturn = contacts.stream().map(ContactInfo::new).collect(Collectors.toList());
-        return Single.just(toReturn);
+        return Single.just(new SearchContactsResponse(toReturn.size(), toReturn));
     }
 
     @Override
@@ -54,14 +54,14 @@ public class InMemoryContactsApi implements ContactsApi {
     public Single<ApiResult> add(ContactDetails contact) {
         ContactDetails newContact = new ContactDetails(String.valueOf(new Date().getTime()), contact.getFirstName(), contact.getLastName(), contact.getEmailAddresses(), contact.getPhoneNumbers());
         contacts.add(newContact);
-        ApiResult result = new ApiResult(newContact.getContactId(), true, List.of());
+        ApiResult result = new ApiResult(newContact.getId(), true, List.of());
         return Single.just(result);
     }
 
     @Override
     public Single<ApiResult> update(ContactDetails contact) {
-        ContactDetails c = getContact(contact.getContactId());
-        ApiResult result = new ApiResult(contact.getContactId(), c != null, List.of("Unknown contact"));
+        ContactDetails c = getContact(contact.getId());
+        ApiResult result = new ApiResult(contact.getId(), c != null, List.of("Unknown contact"));
 
         if (c == null) {
             return Single.just(result);
@@ -111,7 +111,7 @@ public class InMemoryContactsApi implements ContactsApi {
     private ContactDetails getContact(String id) {
         return contacts
                 .stream()
-                .filter(x -> x.getContactId().equalsIgnoreCase(id))
+                .filter(x -> x.getId().equalsIgnoreCase(id))
                 .findAny()
                 .orElse(null);
 

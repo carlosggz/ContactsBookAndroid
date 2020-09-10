@@ -6,6 +6,7 @@ import com.carlosggz.contactsbook.model.ContactInfo;
 import com.carlosggz.contactsbook.model.api.ApiResult;
 import com.carlosggz.contactsbook.model.api.ContactsApi;
 import com.carlosggz.contactsbook.model.api.SearchContactsRequest;
+import com.carlosggz.contactsbook.model.api.SearchContactsResponse;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class ContactsService {
         return instance;
     }
 
-    public Single<List<ContactInfo>> searchContacts(SearchContactsRequest request) {
+    public Single<SearchContactsResponse> searchContacts(SearchContactsRequest request) {
         return api.search(request);
     }
 

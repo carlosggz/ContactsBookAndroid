@@ -2,15 +2,12 @@ package com.carlosggz.contactsbook.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.carlosggz.contactsbook.helpers.Utils;
 import com.carlosggz.contactsbook.model.ContactDetails;
-import com.carlosggz.contactsbook.model.ContactInfo;
 import com.carlosggz.contactsbook.model.EmailItem;
 import com.carlosggz.contactsbook.model.PhoneNumber;
 import com.carlosggz.contactsbook.model.PhoneType;
-import com.carlosggz.contactsbook.model.api.ApiResult;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -19,8 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import io.reactivex.Single;
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class EditContactViewModel extends BaseViewModel {
 
@@ -68,6 +65,8 @@ public class EditContactViewModel extends BaseViewModel {
 
         this.contactsService
                 .getContact(contactId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(this::fromContact)
                 .doOnError(x -> errorLoading.setValue(true))
                 .subscribe();
@@ -123,6 +122,8 @@ public class EditContactViewModel extends BaseViewModel {
         }
 
         (!_id.isPresent() ? this.contactsService.addContact(contact) : this.contactsService.updateContact(contact))
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(x -> savedSuccessfully.setValue(true))
                 .doOnError(x -> errorSaving.setValue(x.getMessage()))
                 .subscribe();
@@ -131,7 +132,7 @@ public class EditContactViewModel extends BaseViewModel {
     //private
 
     private void fromContact(ContactDetails contact) {
-        _id = Optional.of(contact.getContactId());
+        _id = Optional.of(contact.getId());
         firstName.setValue(contact.getFirstName());
         lastName.setValue(contact.getLastName());
         emailAddresses.setValue(contact.getEmailAddresses().stream().map(EmailItem::new).collect(Collectors.toList()));
