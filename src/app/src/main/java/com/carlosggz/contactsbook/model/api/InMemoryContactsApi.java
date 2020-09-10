@@ -21,10 +21,14 @@ public class InMemoryContactsApi implements ContactsApi {
     private InMemoryContactsApi() {
 
         contacts = new ArrayList<ContactDetails>();
-        contacts.add(new ContactDetails("111", "Peter", "Parker", List.of("peterparker@home.es"), List.of(new PhoneNumber(PhoneType.HOME, "123-456-7890"))));
-        contacts.add(new ContactDetails("222", "Clark", "Kent", List.of("clarkkent@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
-        contacts.add(new ContactDetails("333", "Barry", "Alen", List.of("ballen@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
-        contacts.add(new ContactDetails("333", "Bruce", "Wayne", List.of("bruce@home.es"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
+        contacts.add(new ContactDetails("111", "Peter", "Parker", List.of("spiderman@example.com"), List.of(new PhoneNumber(PhoneType.HOME, "123-456-7890"))));
+        contacts.add(new ContactDetails("222", "Clark", "Kent", List.of("superman@example.com"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
+        contacts.add(new ContactDetails("333", "Barry", "Allen", List.of("flash@example.com"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
+        contacts.add(new ContactDetails("444", "Bruce", "Wayne", List.of("batman@example.com"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
+        contacts.add(new ContactDetails("555", "Steve", "Rogers", List.of("captainamerica@example.com"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
+        contacts.add(new ContactDetails("666", "Tony", "Stark", List.of("ironman@example.com"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
+        contacts.add(new ContactDetails("777", "Bruce", "Banner", List.of("hulk@example.com"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
+        contacts.add(new ContactDetails("888", "Natalia", "Romanova", List.of("blackwidow@example.com"), List.of(new PhoneNumber(PhoneType.WORK, "123-456-7890"))));
     }
 
     public static InMemoryContactsApi getInstance() {
