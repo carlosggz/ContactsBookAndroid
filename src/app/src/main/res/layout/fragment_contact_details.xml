@@ -14,6 +14,17 @@
         android:layout_height="match_parent"
         tools:context=".view.ContactDetailsFragment">
 
+        <ImageView
+            android:id="@+id/detailsIcon"
+            style="@style/IconDetails"
+            android:layout_marginTop="19dp"
+            android:contentDescription='@{contact.firstName + " " + contact.lastName}'
+            android:src="@mipmap/ic_contact_round"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/contactName"
             style="@style/DetailsContactName"
@@ -21,22 +32,22 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_margin="4dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
             android:text='@{contact.firstName + " " + contact.lastName}'
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.022" />
+            app:layout_constraintTop_toBottomOf="@+id/detailsIcon"
+            app:layout_constraintVertical_bias="0.045" />
 
         <TextView
             android:id="@+id/contactEmailAddresses"
             style="@style/DetailsCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="40dp"
             android:text="@string/email_addresses"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contactName" />
 
@@ -55,9 +66,10 @@
             style="@style/DetailsCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="40dp"
             android:text="@string/phone_numbers"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.507"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contactEmails" />
 
@@ -68,6 +80,7 @@
             android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contactPhoneNumbers" />
 

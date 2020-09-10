@@ -9,14 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:orientation="horizontal"
+        android:gravity="center"
         android:padding="5dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{phone.phoneNumber}"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text='@{ " (" + phone.phoneType.name().toLowerCase() + ")"}' />
+            android:text='@{phone.phoneNumber + " (" + phone.phoneType.name().toLowerCase() + ")"}'/>
     </LinearLayout>
 </layout>

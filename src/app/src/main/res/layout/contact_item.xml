@@ -28,6 +28,13 @@
             android:layout_height="100dp"
             android:padding="5dp">
 
+            <ImageView
+                android:id="@+id/listIcon"
+                android:src="@mipmap/ic_contact_round"
+                android:contentDescription='@{contact.firstName + " " + contact.lastName}'
+                style="@style/IconContact"
+                />
+
             <TextView
                 android:id="@+id/contactId"
                 android:layout_width="wrap_content"
@@ -41,12 +48,15 @@
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 style="@style/ListItemName"
-                android:text='@{contact.firstName + " " + contact.lastName}' />
+                android:text='@{contact.firstName + " " + contact.lastName}'
+                android:layout_toEndOf="@id/listIcon"
+                android:layout_marginStart="10dp"
+                />
 
             <ImageView
                 android:id="@+id/phonesCountLabel"
                 android:layout_marginTop="5dp"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="70dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/contactFirstName"
