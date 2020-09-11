@@ -98,7 +98,7 @@ public class EditContactViewModel extends BaseViewModel {
     //Phone methods
     public void addPhone() {
         List<PhoneNumber> phones = new ArrayList<PhoneNumber>(phoneNumbers.getValue());
-        phones.add(new PhoneNumber(PhoneType.HOME, ""));
+        phones.add(new PhoneNumber(PhoneType.HOME.ordinal(), ""));
         phoneNumbers.setValue(phones);
     }
 

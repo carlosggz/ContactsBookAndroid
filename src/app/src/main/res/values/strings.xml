@@ -29,8 +29,8 @@
     <string name="error_saving_contact">Error saving contact, please check the error and try again</string>
     <string name="phones">Phones</string>
     <string-array name="phone_types">
-        <item>Work</item>
         <item>Home</item>
+        <item>Work</item>
         <item>Mobile</item>
     </string-array>
 </resources>

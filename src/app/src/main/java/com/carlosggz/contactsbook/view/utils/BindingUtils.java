@@ -1,5 +1,6 @@
 package com.carlosggz.contactsbook.view.utils;
 
+import android.util.Log;
 import android.widget.Spinner;
 
 import androidx.databinding.BindingAdapter;
@@ -11,13 +12,15 @@ import com.carlosggz.contactsbook.model.PhoneType;
 public class BindingUtils {
 
     @BindingAdapter("selectedPhoneType")
-    public static void setSelectedPhoneType(Spinner spinner, PhoneType phoneType) {
-        spinner.setSelection(phoneType.ordinal());
+    public static void setSelectedPhoneType(Spinner spinner, int phoneType) {
+        if (spinner != null) {
+            spinner.setSelection(phoneType);
+        }
     }
 
     @InverseBindingAdapter(attribute = "selectedPhoneType")
-    public static PhoneType getSelectedPhoneType(Spinner spinner) {
-        return (PhoneType)spinner.getSelectedItem();
+    public static Integer getSelectedPhoneType(Spinner spinner) {
+        return spinner.getSelectedItemPosition();
     }
 
     @BindingAdapter("selectedPhoneTypeAttrChanged")
