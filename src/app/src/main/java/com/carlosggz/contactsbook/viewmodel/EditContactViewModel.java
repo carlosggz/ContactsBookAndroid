@@ -1,5 +1,6 @@
 package com.carlosggz.contactsbook.viewmodel;
 
+import androidx.databinding.Bindable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -17,6 +18,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class EditContactViewModel extends BaseViewModel {
@@ -37,7 +40,9 @@ public class EditContactViewModel extends BaseViewModel {
         return _id;
     }
 
-    public MutableLiveData<String> getFirstName() { return firstName; }
+    public MutableLiveData<String> getFirstName() {
+        return firstName;
+    }
 
     public MutableLiveData<String> getLastName() {
         return lastName;
@@ -51,25 +56,34 @@ public class EditContactViewModel extends BaseViewModel {
         return phoneNumbers;
     }
 
-    public LiveData<Boolean> getErrorLoading() { return errorLoading; }
+    public LiveData<Boolean> getErrorLoading() {
+        return errorLoading;
+    }
 
-    public LiveData<String> getErrorSaving() { return errorSaving; }
+    public LiveData<String> getErrorSaving() {
+        return errorSaving;
+    }
 
-    public LiveData<Boolean> getSavedSuccessfully() { return savedSuccessfully; }
+    public LiveData<Boolean> getSavedSuccessfully() {
+        return savedSuccessfully;
+    }
 
-    public LiveData<List<String>> getValidationErrors() { return validationErrors;}
+    public LiveData<List<String>> getValidationErrors() {
+        return validationErrors;
+    }
 
     //Methods to access contacts
 
     public void loadContact(String contactId) {
 
-        this.contactsService
-                .getContact(contactId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(this::fromContact)
-                .doOnError(x -> errorLoading.setValue(true))
-                .subscribe();
+        disposable.add(
+                this.contactsService
+                        .getContact(contactId)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSuccess(this::fromContact)
+                        .doOnError(x -> errorLoading.setValue(true))
+                        .subscribe());
     }
 
     public void newContact() {
@@ -166,8 +180,7 @@ public class EditContactViewModel extends BaseViewModel {
 
         if (emails.stream().anyMatch(x -> !Utils.isValidEmail(x))) {
             errors.add("There are invalid emails");
-        }
-        else if (emails.stream().distinct().count() != emails.size()) {
+        } else if (emails.stream().distinct().count() != emails.size()) {
             errors.add("There are repeated emails");
         }
 
@@ -175,8 +188,7 @@ public class EditContactViewModel extends BaseViewModel {
 
         if (phoneNumbers.stream().anyMatch(x -> !Utils.isValidPhone(x))) {
             errors.add("There are invalid phone numbers");
-        }
-        else if (phoneNumbers.stream().distinct().count() != phoneNumbers.size()) {
+        } else if (phoneNumbers.stream().distinct().count() != phoneNumbers.size()) {
             errors.add("There are repeated phone numbers");
         }
 

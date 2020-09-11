@@ -38,7 +38,9 @@ public class ContactsListViewModel extends BaseViewModel {
         return contacts;
     }
 
-    public LiveData<Boolean> getIsLoading() { return isLoading; }
+    public LiveData<Boolean> getIsLoading() {
+        return isLoading;
+    }
 
     public LiveData<Boolean> getContactsLoadingError() {
         return contactsLoadingError;
@@ -48,18 +50,19 @@ public class ContactsListViewModel extends BaseViewModel {
         contactsLoadingError.setValue(false);
         isLoading.setValue(true);
 
-        contactsService
-                .searchContacts(new SearchContactsRequest(1,1000, ""))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(response -> {
-                    contacts.setValue(response.results);
-                    isLoading.setValue(false);
-                })
-                .doOnError(e -> {
-                    contactsLoadingError.setValue(true);
-                    isLoading.setValue(false);
-                })
-                .subscribe();
+        disposable.add(
+                contactsService
+                        .searchContacts(new SearchContactsRequest(1, 1000, ""))
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSuccess(response -> {
+                            contacts.setValue(response.results);
+                            isLoading.setValue(false);
+                        })
+                        .doOnError(e -> {
+                            contactsLoadingError.setValue(true);
+                            isLoading.setValue(false);
+                        })
+                        .subscribe());
     }
 }

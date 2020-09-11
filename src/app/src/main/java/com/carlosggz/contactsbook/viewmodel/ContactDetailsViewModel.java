@@ -15,29 +15,40 @@ public class ContactDetailsViewModel extends BaseViewModel {
     private MutableLiveData<String> errorDeleting = new MutableLiveData<String>("");
     private MutableLiveData<Boolean> contactDeleted = new MutableLiveData<Boolean>(false);
 
-    public LiveData<ContactDetails> getContact() { return contact; }
-    public LiveData<Boolean> getErrorLoading() { return errorLoading; }
-    public LiveData<String> getErrorDeleting() { return errorDeleting; }
-    public LiveData<Boolean> getContactDeleted() { return contactDeleted; }
+    public LiveData<ContactDetails> getContact() {
+        return contact;
+    }
+
+    public LiveData<Boolean> getErrorLoading() {
+        return errorLoading;
+    }
+
+    public LiveData<String> getErrorDeleting() {
+        return errorDeleting;
+    }
+
+    public LiveData<Boolean> getContactDeleted() {
+        return contactDeleted;
+    }
 
     public void loadContact(String contactId) {
 
-        this.contactsService
+        disposable.add(this.contactsService
                 .getContact(contactId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(c -> contact.setValue(c))
                 .doOnError(x -> errorLoading.setValue(true))
-                .subscribe();
+                .subscribe());
     }
 
     public void deleteContact() {
-        this.contactsService
+        disposable.add(this.contactsService
                 .deleteContact(contact.getValue().getId())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(c -> contactDeleted.setValue(true))
                 .doOnError(x -> errorDeleting.setValue(x.getMessage()))
-                .subscribe();
+                .subscribe());
     }
 }
