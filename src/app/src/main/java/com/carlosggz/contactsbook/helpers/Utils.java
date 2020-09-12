@@ -2,7 +2,17 @@ package com.carlosggz.contactsbook.helpers;
 
 import android.util.Patterns;
 
+import com.carlosggz.contactsbook.model.api.ApiResult;
+
+import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
+import retrofit2.HttpException;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Utils {
     public static boolean isEmptyOrNull(String s) {
@@ -19,5 +29,31 @@ public class Utils {
 
     public static boolean isValidPhone(String phone) {
         return !isNullOrWhiteSpace(phone) && Patterns.PHONE.matcher(phone).matches();
+    }
+
+    public static ApiResult deserializeError(Throwable x) {
+
+        if (!(x instanceof HttpException)) {
+            return null;
+        }
+
+        ResponseBody error = ((HttpException)x).response().errorBody();
+        GsonConverterFactory factory = GsonConverterFactory.create();
+        Converter<ResponseBody, ApiResult> converter = (Converter<ResponseBody, ApiResult>)factory.responseBodyConverter(ApiResult.class, new Annotation[0], null);
+
+        try {
+            return converter.convert(error);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static String getErrorFromResponse(Throwable x) {
+
+        ApiResult result = deserializeError(x) ;
+
+        return result == null
+                ? x.getMessage()
+                : result.getErrors().stream().map(Object::toString).collect(Collectors.joining("\n"));
     }
 }

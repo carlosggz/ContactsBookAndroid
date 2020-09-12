@@ -37,9 +37,7 @@ public class ContactDetailsViewModel extends BaseViewModel {
                 .getContact(contactId)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(c -> contact.setValue(c))
-                .doOnError(x -> errorLoading.setValue(true))
-                .subscribe());
+                .subscribe(c -> contact.setValue(c), x -> errorLoading.setValue(true)));
     }
 
     public void deleteContact() {

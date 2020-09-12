@@ -116,7 +116,7 @@ public class EditContactFragment extends BaseFragment {
 
         viewModel.getErrorSaving().observe(lco, error -> {
             if (!Utils.isNullOrWhiteSpace(error)) {
-                displayMessage(getString(R.string.error), getString(R.string.error_saving_contact) + ": " + error);
+                displayMessage(getString(R.string.error), /*getString(R.string.error_saving_contact) + ": " +*/ error);
             }
         });
 

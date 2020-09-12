@@ -1,5 +1,7 @@
 package com.carlosggz.contactsbook.viewmodel;
 
+import android.util.Log;
+
 import androidx.databinding.Bindable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -9,9 +11,12 @@ import com.carlosggz.contactsbook.model.ContactDetails;
 import com.carlosggz.contactsbook.model.EmailItem;
 import com.carlosggz.contactsbook.model.PhoneNumber;
 import com.carlosggz.contactsbook.model.PhoneType;
+import com.carlosggz.contactsbook.model.api.ApiResult;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +26,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
+import retrofit2.HttpException;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EditContactViewModel extends BaseViewModel {
 
@@ -81,9 +90,7 @@ public class EditContactViewModel extends BaseViewModel {
                         .getContact(contactId)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSuccess(this::fromContact)
-                        .doOnError(x -> errorLoading.setValue(true))
-                        .subscribe());
+                        .subscribe(this::fromContact, x -> errorLoading.setValue(true)));
     }
 
     public void newContact() {
@@ -139,9 +146,10 @@ public class EditContactViewModel extends BaseViewModel {
                 (Utils.isNullOrWhiteSpace(id.getValue()) ? this.contactsService.addContact(contact) : this.contactsService.updateContact(contact))
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSuccess(x -> savedSuccessfully.setValue(true))
-                        .doOnError(x -> errorSaving.setValue(x.getMessage()))
-                        .subscribe());
+                        .subscribe(
+                                s -> savedSuccessfully.setValue(true),
+                                x -> errorSaving.setValue(Utils.getErrorFromResponse(x))
+                        ));
     }
 
     //private

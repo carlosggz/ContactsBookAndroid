@@ -55,14 +55,12 @@ public class ContactsListViewModel extends BaseViewModel {
                         .searchContacts(new SearchContactsRequest(1, 1000, ""))
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSuccess(response -> {
+                        .subscribe(response -> {
                             contacts.setValue(response.results);
                             isLoading.setValue(false);
-                        })
-                        .doOnError(e -> {
+                        }, e -> {
                             contactsLoadingError.setValue(true);
                             isLoading.setValue(false);
-                        })
-                        .subscribe());
+                        }));
     }
 }
