@@ -131,6 +131,13 @@ public class EditContactFragment extends BaseFragment {
                 displayList("Verify the following errors:", errors.stream().toArray(String[]::new));
             }
         });
+
+        viewModel.getId().observe(lco, id -> {
+
+            if (id != null) {
+                editBinding.setViewmodel(viewModel);
+            }
+        });
     }
 
     private void initializeLists() {

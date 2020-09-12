@@ -25,7 +25,7 @@ import io.reactivex.schedulers.Schedulers;
 public class EditContactViewModel extends BaseViewModel {
 
     //Private members
-    private Optional<String> _id = Optional.empty();
+    private MutableLiveData<String> id = new MutableLiveData<String>("");
     private MutableLiveData<String> firstName = new MutableLiveData<String>("");
     private MutableLiveData<String> lastName = new MutableLiveData<String>("");
     private MutableLiveData<List<EmailItem>> emailAddresses = new MutableLiveData<List<EmailItem>>(List.of());
@@ -36,8 +36,8 @@ public class EditContactViewModel extends BaseViewModel {
     private MutableLiveData<List<String>> validationErrors = new MutableLiveData<List<String>>(List.of());
 
     //Getters
-    public Optional<String> getId() {
-        return _id;
+    public LiveData<String> getId() {
+        return id;
     }
 
     public MutableLiveData<String> getFirstName() {
@@ -87,11 +87,11 @@ public class EditContactViewModel extends BaseViewModel {
     }
 
     public void newContact() {
-        _id = Optional.empty();
         firstName.setValue("");
         lastName.setValue("");
         emailAddresses.setValue(new ArrayList<EmailItem>());
         phoneNumbers.setValue(new ArrayList<PhoneNumber>());
+        id.setValue("");
     }
 
     //Email methods
@@ -135,7 +135,7 @@ public class EditContactViewModel extends BaseViewModel {
             return;
         }
 
-        (!_id.isPresent() ? this.contactsService.addContact(contact) : this.contactsService.updateContact(contact))
+        (Utils.isNullOrWhiteSpace(id.getValue()) ? this.contactsService.addContact(contact) : this.contactsService.updateContact(contact))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(x -> savedSuccessfully.setValue(true))
@@ -146,17 +146,17 @@ public class EditContactViewModel extends BaseViewModel {
     //private
 
     private void fromContact(ContactDetails contact) {
-        _id = Optional.of(contact.getId());
         firstName.setValue(contact.getFirstName());
         lastName.setValue(contact.getLastName());
         emailAddresses.setValue(contact.getEmailAddresses().stream().map(EmailItem::new).collect(Collectors.toList()));
         phoneNumbers.setValue(contact.getPhoneNumbers());
+        id.setValue(contact.getId());
     }
 
     @NotNull
     private ContactDetails toContact() {
         return new ContactDetails(
-                _id.orElse(null),
+                id.getValue(),
                 firstName.getValue(),
                 lastName.getValue(),
                 emailAddresses.getValue().stream().map(EmailItem::getEmail).collect(Collectors.toList()),
