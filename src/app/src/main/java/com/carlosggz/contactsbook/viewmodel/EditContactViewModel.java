@@ -135,12 +135,13 @@ public class EditContactViewModel extends BaseViewModel {
             return;
         }
 
-        (Utils.isNullOrWhiteSpace(id.getValue()) ? this.contactsService.addContact(contact) : this.contactsService.updateContact(contact))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(x -> savedSuccessfully.setValue(true))
-                .doOnError(x -> errorSaving.setValue(x.getMessage()))
-                .subscribe();
+        disposable.add(
+                (Utils.isNullOrWhiteSpace(id.getValue()) ? this.contactsService.addContact(contact) : this.contactsService.updateContact(contact))
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSuccess(x -> savedSuccessfully.setValue(true))
+                        .doOnError(x -> errorSaving.setValue(x.getMessage()))
+                        .subscribe());
     }
 
     //private
