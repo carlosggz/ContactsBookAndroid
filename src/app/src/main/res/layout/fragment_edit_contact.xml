@@ -9,7 +9,6 @@
             name="viewmodel"
             type="com.carlosggz.contactsbook.viewmodel.EditContactViewModel" />
     </data>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

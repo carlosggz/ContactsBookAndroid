@@ -52,8 +52,14 @@ public class Utils {
 
         ApiResult result = deserializeError(x) ;
 
-        return result == null
-                ? x.getMessage()
-                : result.getErrors().stream().map(Object::toString).collect(Collectors.joining("\n"));
+        if (result != null) {
+            return result.getErrors().stream().map(Object::toString).collect(Collectors.joining("\n"));
+        }
+
+        if (x instanceof java.net.SocketTimeoutException) {
+            return "Error connecting to the remote server";
+        }
+
+        return x.getMessage();
     }
 }

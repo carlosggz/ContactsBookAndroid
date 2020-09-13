@@ -1,5 +1,6 @@
 package com.carlosggz.contactsbook.view;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.carlosggz.contactsbook.R;
@@ -105,6 +108,20 @@ public class EditContactFragment extends BaseFragment {
         viewModel.getPhoneNumbers().observe(lco, phones ->{
             if (phones != null) {
                 phonesAdapter.updateList(phones);
+            }
+        });
+
+        viewModel.getIsSaving().observe(lco, saving -> {
+            if (saving != null) {
+                //changeInteraction(saving);
+                //savingProgressBar.setVisibility(saving ? View.VISIBLE : View.GONE);
+
+                if (saving) {
+                    showPleaseWait(getString(R.string.saving_please_wait));
+                }
+                else {
+                    hidePleaseWait();
+                }
             }
         });
 

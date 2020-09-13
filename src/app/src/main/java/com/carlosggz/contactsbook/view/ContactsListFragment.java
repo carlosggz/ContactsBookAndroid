@@ -88,6 +88,7 @@ public class ContactsListFragment extends BaseFragment {
 
             contactsList.setVisibility(View.VISIBLE);
             contactsAdapter.updateContactList(contacts);
+            btnAdd.setVisibility(View.VISIBLE);
         });
 
         viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
@@ -96,6 +97,7 @@ public class ContactsListFragment extends BaseFragment {
             }
 
             loadingProgress.setVisibility(isLoading ? View.VISIBLE: View.GONE);
+            btnAdd.setVisibility(isLoading ? View.GONE: View.VISIBLE);
 
             if (isLoading) {
                 contactsList.setVisibility(View.GONE);

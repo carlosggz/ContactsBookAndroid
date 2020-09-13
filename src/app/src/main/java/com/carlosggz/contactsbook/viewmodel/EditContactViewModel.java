@@ -39,6 +39,7 @@ public class EditContactViewModel extends BaseViewModel {
     private MutableLiveData<String> lastName = new MutableLiveData<String>("");
     private MutableLiveData<List<EmailItem>> emailAddresses = new MutableLiveData<List<EmailItem>>(List.of());
     private MutableLiveData<List<PhoneNumber>> phoneNumbers = new MutableLiveData<List<PhoneNumber>>(List.of());
+    private MutableLiveData<Boolean> isSaving = new MutableLiveData<Boolean>(false);
     private MutableLiveData<Boolean> errorLoading = new MutableLiveData<Boolean>(false);
     private MutableLiveData<String> errorSaving = new MutableLiveData<String>("");
     private MutableLiveData<Boolean> savedSuccessfully = new MutableLiveData<Boolean>(false);
@@ -63,6 +64,10 @@ public class EditContactViewModel extends BaseViewModel {
 
     public LiveData<List<PhoneNumber>> getPhoneNumbers() {
         return phoneNumbers;
+    }
+
+    public LiveData<Boolean> getIsSaving() {
+        return isSaving;
     }
 
     public LiveData<Boolean> getErrorLoading() {
@@ -142,13 +147,21 @@ public class EditContactViewModel extends BaseViewModel {
             return;
         }
 
+        isSaving.setValue(true);
+
         disposable.add(
                 (Utils.isNullOrWhiteSpace(id.getValue()) ? this.contactsService.addContact(contact) : this.contactsService.updateContact(contact))
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
-                                s -> savedSuccessfully.setValue(true),
-                                x -> errorSaving.setValue(Utils.getErrorFromResponse(x))
+                                s -> {
+                                    isSaving.setValue(false);
+                                    savedSuccessfully.setValue(true);
+                                },
+                                x -> {
+                                    isSaving.setValue(false);
+                                    errorSaving.setValue(Utils.getErrorFromResponse(x));
+                                }
                         ));
     }
 
