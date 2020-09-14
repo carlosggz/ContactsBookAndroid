@@ -10,7 +10,7 @@
 
         <variable
             name="listener"
-            type="com.carlosggz.contactsbook.view.ContactSelectedListener" />
+            type="com.carlosggz.contactsbook.view.listeners.ContactSelectedListener" />
     </data>
 
     <androidx.cardview.widget.CardView

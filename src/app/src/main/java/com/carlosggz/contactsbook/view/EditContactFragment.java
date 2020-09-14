@@ -86,13 +86,7 @@ public class EditContactFragment extends BaseFragment {
 
         initializeViewModel();
         initializeLists();
-        setEventHandlers();
         setObservers();
-    }
-
-    private void setEventHandlers() {
-        btnAddEmail.setOnClickListener(v -> viewModel.addEmail());
-        btnAddPhone.setOnClickListener(v -> viewModel.addPhone());
     }
 
     private void setObservers() {
@@ -113,9 +107,6 @@ public class EditContactFragment extends BaseFragment {
 
         viewModel.getIsSaving().observe(lco, saving -> {
             if (saving != null) {
-                //changeInteraction(saving);
-                //savingProgressBar.setVisibility(saving ? View.VISIBLE : View.GONE);
-
                 if (saving) {
                     showPleaseWait(getString(R.string.saving_please_wait));
                 }

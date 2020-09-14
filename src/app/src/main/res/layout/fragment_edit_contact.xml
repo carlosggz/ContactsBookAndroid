@@ -80,6 +80,7 @@
                     android:layout_gravity="center_vertical"
                     android:drawableLeft="@drawable/ic_add"
                     android:text="@string/add_email_address"
+                    android:onClick="@{v -> viewmodel.addEmail()}"
                     />
 
 
@@ -120,6 +121,7 @@
                     android:layout_gravity="center_vertical"
                     android:drawableLeft="@drawable/ic_add"
                     android:text="@string/add_phone_number"
+                    android:onClick="@{v -> viewmodel.addPhone()}"
                     />
 
             </LinearLayout>
