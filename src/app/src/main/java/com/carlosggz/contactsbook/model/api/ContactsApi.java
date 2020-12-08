@@ -15,18 +15,18 @@ import retrofit2.http.Path;
 
 public interface ContactsApi {
 
-    @POST("/api/Contacts/Search")
+    @POST("/api/Contacts/search")
     Single<SearchContactsResponse> search(@Body SearchContactsRequest request);
 
-    @GET("/api/Contacts/Get/{id}")
+    @GET("/api/Contacts/{id}")
     Single<ContactDetails> get(@Path("id") String id);
 
-    @POST("/api/Contacts/Add")
+    @POST("/api/Contacts")
     Single<ApiResult> add(@Body ContactDetails contact);
 
-    @PUT("/api/Contacts/Update")
+    @PUT("/api/Contacts")
     Single<ApiResult> update(@Body ContactDetails contact);
 
-    @DELETE("/api/Contacts/Delete/{id}")
+    @DELETE("/api/Contacts/{id}")
     Single<ApiResult> delete(@Path("id") String id);
 }
